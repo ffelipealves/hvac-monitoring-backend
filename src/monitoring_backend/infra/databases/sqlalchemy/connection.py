@@ -20,9 +20,17 @@ url = URL.create(
 engine = create_async_engine(url, echo=True)
 Session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
-async def init_database():
+async def init_database(drop_all: bool = False):
     async with engine.begin() as conn:
+        if drop_all:
+            print("⚠️  Limpando todas as tabelas do banco antes de criar novamente...")
+            # Deleta todas as tabelas no banco
+            await conn.run_sync(Base.metadata.drop_all)
+
+        # Cria novamente todas as tabelas do projeto
         await conn.run_sync(Base.metadata.create_all)
+
+    print("✅ Banco de dados inicializado com sucesso!")
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with Session() as session:

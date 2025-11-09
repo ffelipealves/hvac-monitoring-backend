@@ -15,27 +15,24 @@ from fastapi import APIRouter, Body, Depends, Path, Query
 
 
 router = APIRouter(
-    prefix="/campuss",
-    tags=["campuss"],
+    prefix="/campus",
+    tags=["campus"],
 )
 
 @router.get("/search", response_model=Page)
 @inject
 async def search(
     name: Optional[str] = Query(None, description="Filter by campus name"),
-    cnpj: Optional[str] = Query(None, description="Filter by campus CNPJ"),
     params: Params = Depends(),
-    search_campuss: ISearchCampus = Depends(Provide[DependencyContainer.search_campuss]),
+    search_campus: ISearchCampus = Depends(Provide[DependencyContainer.search_campus]),
 ):
     query_params: Dict[str, str] = {}
 
     if name is not None:
         query_params["name"] = name
-    if cnpj is not None:
-        query_params["cnpj"] = cnpj
 
-    search_campuss_input = SearchCampusInputDTO(query_params=query_params, pagination=params)
-    result = await search_campuss.execute(search_campuss_input)
+    search_campus_input = SearchCampusInputDTO(query_params=query_params, pagination=params)
+    result = await search_campus.execute(search_campus_input)
     return result
 
 @router.get("/{id}")
@@ -63,6 +60,6 @@ async def update(
     input: Annotated[UpdateCampusBodyDTO, Body(embed=False)],
     update_campus: IUpdateCampus = Depends(Provide[DependencyContainer.update_campus]),
 ):
-    result = await update_campus.execute(UpdateCampusInputDTO(id=id, name=input.name, cnpj=input.cnpj))
+    result = await update_campus.execute(UpdateCampusInputDTO(id=id, name=input.name))
     return result
 
