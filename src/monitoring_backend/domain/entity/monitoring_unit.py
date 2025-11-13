@@ -14,6 +14,7 @@ class MonitoringUnit(BaseModel):
     name: Name
     identifier: str  # ex: número de série, MAC address ou identificador único
     air_conditioners: List[AirConditioner] = Field(default_factory=list)
+    monitoring_system_type_id: Optional[int] = Field(default=None)
 
     model_config = {"frozen": False}  # permite mutações
 

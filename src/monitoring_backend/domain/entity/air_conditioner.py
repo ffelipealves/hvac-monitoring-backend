@@ -9,6 +9,6 @@ class AirConditioner(BaseModel):
 
     id: Optional[int] = Field(default=None)
     name: Name
-    monitoring_unit_id: Optional[int] = Field(default=None)  # FK lógica — vínculo com MonitoringUnit
+    monitoring_unit_id: Optional[int] = Field(default=None)
 
     model_config = {"frozen": False}  # permite mutações

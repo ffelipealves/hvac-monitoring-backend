@@ -15,15 +15,28 @@ from monitoring_backend.infra.databases.sqlalchemy.repositories.air_conditioner 
     AirConditionerDatabaseRepository,
 )
 
+# Monitoring Unit
 from monitoring_backend.application.usecases.monitoring_unit.search_monitoring_unit import SearchMonitoringUnit
 from monitoring_backend.application.usecases.monitoring_unit.find_air_conditioners_by_monitoring_unit import FindAirConditionersByMonitoringUnit
-
 from monitoring_backend.infra.databases.sqlalchemy.repositories.monitoring_unit import (
     MonitoringUnitDatabaseRepository,
 )
 
+# Monitoring Payload
+from monitoring_backend.application.usecases.monitoring_payload.search_monitoring_payload import SearchMonitoringPayload
+from monitoring_backend.infra.databases.sqlalchemy.repositories.monitoring_payload import (
+    MonitoringPayloadDatabaseRepository,
+)
+
+# 🧩 Monitoring System Type
+from monitoring_backend.application.usecases.monitoring_system_type.search_monitoring_system_types import SearchMonitoringSystemType
+from monitoring_backend.infra.databases.sqlalchemy.repositories.monitoring_system_type import (
+    MonitoringSystemTypeDatabaseRepository,
+)
+
 # Sessão do banco
 from monitoring_backend.infra.databases.sqlalchemy.connection import Session
+
 
 class DependencyContainer(containers.DeclarativeContainer):
 
@@ -31,7 +44,9 @@ class DependencyContainer(containers.DeclarativeContainer):
         modules=[
             ".infra.http.routers.campus",
             ".infra.http.routers.air_conditioner",
-            ".infra.http.routers.monitoring_unit",# 👈 adiciona o novo router
+            ".infra.http.routers.monitoring_unit",
+            ".infra.http.routers.monitoring_payload",
+            ".infra.http.routers.monitoring_system_type",  # 👈 novo router
         ]
     )
 
@@ -48,9 +63,17 @@ class DependencyContainer(containers.DeclarativeContainer):
     air_conditioner_repository = providers.Singleton(
         AirConditionerDatabaseRepository, session_factory=session_factory
     )
-    
+
     monitoring_unit_repository = providers.Singleton(
         MonitoringUnitDatabaseRepository, session_factory=session_factory
+    )
+
+    monitoring_payload_repository = providers.Singleton(
+        MonitoringPayloadDatabaseRepository, session_factory=session_factory
+    )
+
+    monitoring_system_type_repository = providers.Singleton(
+        MonitoringSystemTypeDatabaseRepository, session_factory=session_factory
     )
 
     # ===============================
@@ -69,12 +92,26 @@ class DependencyContainer(containers.DeclarativeContainer):
     search_air_conditioner = providers.Factory(
         SearchAirConditioner, air_conditioner_repository=air_conditioner_repository
     )
-    
+
     # Monitoring Units
     search_monitoring_unit = providers.Factory(
         SearchMonitoringUnit, monitoring_unit_repository=monitoring_unit_repository
     )
-    
+
     find_air_conditioners_by_monitoring_unit = providers.Factory(
-        FindAirConditionersByMonitoringUnit, monitoring_unit_repository=monitoring_unit_repository
+        FindAirConditionersByMonitoringUnit,
+        monitoring_unit_repository=monitoring_unit_repository,
+    )
+
+    # Monitoring Payloads
+    search_monitoring_payload = providers.Factory(
+        SearchMonitoringPayload,
+        monitoring_payload_repository=monitoring_payload_repository,
+    )
+
+    # Monitoring System Types
+
+    search_monitoring_system_type = providers.Factory(
+        SearchMonitoringSystemType,
+        monitoring_system_type_repository=monitoring_system_type_repository,
     )

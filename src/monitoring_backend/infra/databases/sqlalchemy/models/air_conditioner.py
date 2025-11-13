@@ -20,3 +20,10 @@ class AirConditionerModel(Base):
     monitoring_unit: Mapped["MonitoringUnitModel"] = relationship(
         back_populates="air_conditioners",
     )
+    
+    payloads: Mapped[list["MonitoringPayloadModel"]] = relationship(
+        back_populates="air_conditioner",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
