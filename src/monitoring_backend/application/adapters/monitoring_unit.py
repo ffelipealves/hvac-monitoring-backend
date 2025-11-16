@@ -7,6 +7,7 @@ class MonitoringUnitPresenter:
             "id": monitoring_unit.id,
             "name": monitoring_unit.name.value,
             "identifier": monitoring_unit.identifier,
+            "monitoring_system_type_id": monitoring_unit.monitoring_system_type_id,
             "air_conditioners": [
                 {
                     "id": ac.id,

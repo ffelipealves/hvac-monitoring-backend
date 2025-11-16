@@ -6,4 +6,5 @@ class AirConditionerPresenter:
         return {
             "id": air_conditioner.id,
             "name": air_conditioner.name.value,
+            "monitoring_unit_id": air_conditioner.monitoring_unit_id
         }

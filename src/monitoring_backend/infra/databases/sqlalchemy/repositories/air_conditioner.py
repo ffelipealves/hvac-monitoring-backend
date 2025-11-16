@@ -42,7 +42,7 @@ class AirConditionerDatabaseRepository(AirConditionerRepository):
                 # Filtro por unidade de monitoramento
                 if "monitoring_unit_id" in query_params:
                     stmt = stmt.where(
-                        AirConditionerModel.monitoring_unit_id == query_params["monitoring_unit_id"]
+                        AirConditionerModel.monitoring_unit_id == int(query_params["monitoring_unit_id"])
                     )
 
                 total_stmt = select(func.count()).select_from(stmt.subquery())

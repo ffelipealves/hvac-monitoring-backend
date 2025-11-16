@@ -13,6 +13,7 @@ class MonitoringUnitAdapter:
             id=entity.id,
             name=entity.name.value,
             identifier=entity.identifier,
+            monitoring_system_type_id=entity.monitoring_system_type_id
         )
 
         # Converter os AirConditioners associados (1-N)
@@ -29,6 +30,7 @@ class MonitoringUnitAdapter:
             id=model.id,
             name=Name(value=model.name),
             identifier=model.identifier,
+            monitoring_system_type_id=model.monitoring_system_type_id,
             air_conditioners=[
                 AirConditionerAdapter.model_to_entity(ac) for ac in model.air_conditioners
             ] if model.air_conditioners else [],

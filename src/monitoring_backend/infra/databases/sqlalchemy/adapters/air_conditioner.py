@@ -20,4 +20,5 @@ class AirConditionerAdapter:
         return AirConditioner(
             id=model.id,
             name=Name(value=model.name),
+            monitoring_unit_id=model.monitoring_unit_id,
         )
