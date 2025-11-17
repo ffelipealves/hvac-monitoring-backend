@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
+from typing import Optional, List
 
 
 class MonitoringPayload(BaseModel):
@@ -10,4 +11,6 @@ class MonitoringPayload(BaseModel):
     temperature: float | None = None
     humidity: float | None = None
     power_consumption: float | None = None
+    voltage: Optional[List[float]] = None
+    current: Optional[List[float]] = None
     extra_data: dict | None = None

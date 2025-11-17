@@ -1,7 +1,7 @@
 from typing import Annotated, Dict, Optional
 
 from dependency_injector.wiring import Provide, inject
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Query, Depends, Body
 from fastapi_pagination import Page, Params
 
 from monitoring_backend.application.dto.errors import ErrorResponseDTO
@@ -9,6 +9,7 @@ from monitoring_backend.application.usecases.interfaces.monitoring_payload.searc
     ISearchMonitoringPayload,
     SearchMonitoringPayloadInputDTO,
 )
+from monitoring_backend.application.usecases.interfaces.monitoring_payload.create_monitoring_payload import CreateMonitoringPayloadInputDTO, ICreateMonitoringPayload
 from monitoring_backend.di import DependencyContainer
 
 router = APIRouter(
@@ -42,4 +43,13 @@ async def search_monitoring_payloads(
 
     # Executa caso de uso
     result = await search_monitoring_payload.execute(input_dto)
+    return result
+
+@router.post("/")
+@inject
+async def create(
+    input: Annotated[CreateMonitoringPayloadInputDTO, Body(embed=False)],
+    create_monitoring_payload: ICreateMonitoringPayload = Depends(Provide[DependencyContainer.create_monitoring_payload]),
+):
+    result = await create_monitoring_payload.execute(input)
     return result

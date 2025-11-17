@@ -8,6 +8,8 @@ class MonitoringPayloadPresenter:
             "timestamp": payload.timestamp,
             "temperature": payload.temperature,
             "humidity": payload.humidity,
+            "voltage": payload.voltage,
+            "current": payload.current,
             "power_consumption": payload.power_consumption,
             "extra_data": payload.extra_data,
         }

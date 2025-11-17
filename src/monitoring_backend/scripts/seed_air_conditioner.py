@@ -20,10 +20,10 @@ async def seed_database():
 
     async with Session() as session:
         # Limpa todas as tabelas manualmente, se já existirem (ordem respeitando FKs)
-        await session.execute(text("DELETE FROM monitoring_payloads"))
-        await session.execute(text("DELETE FROM air_conditioners"))
-        await session.execute(text("DELETE FROM monitoring_units"))
-        await session.execute(text("DELETE FROM monitoring_system_types"))
+        await session.execute(text("DELETE FROM monitoring_payloads CASCADE"))
+        await session.execute(text("DELETE FROM air_conditioners CASCADE"))
+        await session.execute(text("DELETE FROM monitoring_units CASCADE"))
+        await session.execute(text("DELETE FROM monitoring_system_types CASCADE"))
         await session.commit()
 
         # Cria tipos de sistema
@@ -85,6 +85,14 @@ async def seed_database():
                         temperature=round(uniform(20.0, 28.0), 1),
                         humidity=round(uniform(40.0, 70.0), 1),
                         power_consumption=round(uniform(0.5, 2.5), 2),
+                        voltage=[
+                            round(uniform(110.0, 130.0), 2),
+                            round(uniform(110.0, 130.0), 2),
+                        ],
+                        current=[
+                            round(uniform(0.5, 20.0), 2),
+                            round(uniform(0.5, 20.0), 2),
+                        ],
                         extra_data={
                             "status": "ON" if randint(0, 1) else "OFF",
                             "fan_speed": randint(1, 5),

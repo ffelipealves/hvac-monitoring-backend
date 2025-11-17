@@ -24,6 +24,7 @@ from monitoring_backend.infra.databases.sqlalchemy.repositories.monitoring_unit 
 
 # Monitoring Payload
 from monitoring_backend.application.usecases.monitoring_payload.search_monitoring_payload import SearchMonitoringPayload
+from monitoring_backend.application.usecases.monitoring_payload.create_monitoring_payload import CreateMonitoringPayload
 from monitoring_backend.infra.databases.sqlalchemy.repositories.monitoring_payload import (
     MonitoringPayloadDatabaseRepository,
 )
@@ -108,6 +109,7 @@ class DependencyContainer(containers.DeclarativeContainer):
         SearchMonitoringPayload,
         monitoring_payload_repository=monitoring_payload_repository,
     )
+    create_monitoring_payload = providers.Factory(CreateMonitoringPayload, monitoring_payload_repository=monitoring_payload_repository)
 
     # Monitoring System Types
 

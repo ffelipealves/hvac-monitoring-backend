@@ -20,6 +20,8 @@ class MonitoringPayloadModel(Base):
     temperature: Mapped[float | None] = mapped_column(Float, nullable=True)
     humidity: Mapped[float | None] = mapped_column(Float, nullable=True)
     power_consumption: Mapped[float | None] = mapped_column(Float, nullable=True)
+    voltage: Mapped[list[float] | None] = mapped_column(JSON, nullable=True)
+    current: Mapped[list[float] | None] = mapped_column(JSON, nullable=True)
     extra_data: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
     monitoring_unit = relationship("MonitoringUnitModel", back_populates="payloads")

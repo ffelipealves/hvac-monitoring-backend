@@ -18,6 +18,8 @@ class MonitoringPayloadAdapter:
             temperature=model.temperature,
             humidity=model.humidity,
             power_consumption=model.power_consumption,
+            voltage=model.voltage,
+            current=model.current,
             extra_data=model.extra_data or {},
         )
 
@@ -31,5 +33,7 @@ class MonitoringPayloadAdapter:
             temperature=entity.temperature,
             humidity=entity.humidity,
             power_consumption=entity.power_consumption,
+            voltage=entity.voltage,
+            current=entity.current,
             extra_data=entity.extra_data,
         )
